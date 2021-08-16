@@ -9,7 +9,7 @@
 6. Expose the TLS-enabled Redis Enterprise database through Anthos Service Mesh
 7. Create a user provided service for the TLS-enabled Redis Enterprise database
 8. Configure TLS origination for accessing the TLS-enabled Redis Enterprise database from within the GKE cluster under Anthos Service Mesh
-9. Validate the setup using the sample Spring Music app
+9. Validate the setup using the Spring Music sample app
 
 
 ## High Level Workflow
