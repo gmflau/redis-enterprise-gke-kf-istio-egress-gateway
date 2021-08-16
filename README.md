@@ -17,20 +17,26 @@ The following is the high level workflow which you will follow:
 1. Clone this repo
 2. Create a GKE cluster for Kf
 3. Install Anthos Service Mesh (ASM)
-4. Install Tekton (CI/CD)
-5. Install Kf client on our machine
-6. Install Kf on the GKE cluster
-7. Create a namespace for this deployment and deploy the Redis Enterprise Operator bundle
-8. Deploy a Redis Enterprise Cluster (REC)
-9. Deploy Ingress Gateway and Create routes for Redis Enterprise Cluster's HTTPS web access
-10. Access Redis Enterprise Cluster's console
-11. Create a Redis Enterprise database instance without SSL/TLS enabled
-12. Create user provided service (vcups) for the first Redis Enterprise database in Kf
-13. Update Ingress Gateway to include Redis Enterprise Database instances
-14. Add a custom port for Redis Enterprise database connection to default ingress gateway
-15. Verify database connections
-16. Deploy Spring Music application to Kf
-17. Verify Spring Music app's data is being stored on the Redis Enterprise database
+4. Install Config Connector
+5. Set up workload identity
+6. Install Tekton
+7. Install Kf
+8. Create a Kf space for testing the TLS origination configuration
+9. Install Redis Enterprise Cluster
+10. Deploy Ingress Gateway and Create routes for Redis Enterprise Cluster's HTTPS web access
+11. Grab the password for demo@redislabs.com user for accessing REC's configuration manager (CM)
+12. Create a Redis Enterprise Database with one-way SSL
+13. Create Ingress Gateway and Virtual Service for the Redis Enterprise Database instance
+14. Create a dedicated GKE node pool for the egress gateway
+15. Create a namespace for Istio egress and label it for sidecar injection
+16. Download istioctl for your operating system and extract into your working directory
+17. Install Istio Egress Gateway
+18. Configure TLS origination for the TLS-enabled Redis Enterprise database
+19. Create a K8 secret from the Redis Enterprise database's proxy certificate
+20. Create a user provided service in Kf
+21. Deploy the Spring Music sample app in Kf
+22. Bind the user provided service to the Spring Music sample app
+23. Verify Spring Music app's data is being stored on the Redis Enterprise database
 
 
 
@@ -265,8 +271,8 @@ You should see a similar output like below:
 PASS
 ```  
   
-  `
-#### 8. Create a Kf space for out testing:
+  
+#### 8. Create a Kf space for testing the TLS origination configuration
 ```
 kf create-space test-space
 kf target -s test-space
@@ -678,7 +684,7 @@ kf cups redis-$DB_PORT -p \
 ```
   
 
-#### 21. Deploy the Spring Music samp app in Kf
+#### 21. Deploy the Spring Music sample app in Kf
 ```
 git clone https://github.com/cloudfoundry-samples/spring-music.git spring-music
 cd spring-music
