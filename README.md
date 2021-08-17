@@ -672,7 +672,7 @@ kubectl cp rec-0:/etc/opt/redislabs/proxy_cert.pem ./proxy_cert.pem -c redis-ent
 ```
 Create the K8 secret in istio-egress namespace:
 ``` 
-kubectl create secret generic -n istio-egress redis-${DB_PORT}-secret --from-file=ca.crt=redislabs_ca_cert.pem
+kubectl create secret generic -n istio-egress redis-${DB_PORT}-secret --from-file=ca.crt=proxy_cert.pem
 ```
 
 
