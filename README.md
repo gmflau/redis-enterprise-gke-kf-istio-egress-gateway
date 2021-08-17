@@ -55,7 +55,7 @@ export MACHINE_TYPE=e2-standard-8
 export NETWORK=default
 ```  
   
-**Service account setup:**  
+Service account setup:    
 Create the service account that Kf will use:
 ```
 gcloud iam service-accounts create ${CLUSTER_NAME}-sa \
