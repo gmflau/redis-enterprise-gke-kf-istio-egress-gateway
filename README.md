@@ -488,7 +488,6 @@ The expected output is: Verified OK.
 Extract the contents and change to the installation's root directory:
 ```
 tar xzf istio-1.10.2-asm.3-osx.tar.gz
-cd istio-1.10.2-asm.3
 ```
 
 
@@ -497,7 +496,7 @@ cd istio-1.10.2-asm.3
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
        -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
 
-kubectl apply -f - <<EOF
+cat > istio-operator-egress-gateway.yaml <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -530,7 +529,9 @@ spec:
         # Enable gateway injection
         injectionTemplate: gateway
         runAsRoot: True
-EOF
+EOF 
+
+./istio-1.10.2-asm.3/bin/istioctl install -f istio-operator-egress-gateway.yaml
 ``` 
 
   
