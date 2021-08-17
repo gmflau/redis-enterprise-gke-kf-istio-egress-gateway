@@ -315,7 +315,7 @@ You should see both Profiles: and Services: are empty as follows:
   
 Go back to the working directory:
 ```
-popdc
+popd
 ```
   
 
