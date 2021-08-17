@@ -309,7 +309,7 @@ kf apps
 ```
 The access URL should look like the following:
 ```
-Ex. spring-music-16ddfwutxgjte-cd6vnt89i9io.test-space.34.67.154.126.nip.io
+Ex. spring-music-16ddfwutxgjte-cd6vnt89i9io.test-space.34.136.118.158.nip.io
 ```
 You should see both Profiles: and Services: are empty as follows:
 
@@ -420,7 +420,7 @@ Access the CM's login page using the following URL:
 https://rec-ui.<$INGRESS_HOST>.nip.io:443
 
 For example:
-https://rec-ui.34.83.116.191.nip.io:443
+https://rec-ui.34.136.118.158.nip.io:443
 ```
 Log in using demo@redislabs.com and the password collected above to view the cluster information in CM. You can then navigate to the Redis Enterprise Cluster nodes page by click on the **nodes" tab as follows:
 ![REC nodes page](./img/rec_nodes.png)
