@@ -340,9 +340,21 @@ metadata:
 spec:
   nodes: 3
 EOF
+```  
+It will take about 8 minutes to compleate the deployment.  Run the following command to ensure all three Redis Enterprise Cluster pods are up and running:
+```
+kubectl get pod -n redis
+```
+The output below shows all three pods are up and running:
+```
+NAME           READY   STATUS    RESTARTS   AGE
+rec-0          2/2     Running   0          7m8s
+rec-1          2/2     Running   0          4m54s
+rec-2          2/2     Running   0          2m29s
 ```
 
-
+  
+  
 #### 10. Deploy Ingress Gateway and Create routes for Redis Enterprise Cluster's HTTPS web access
 Define gateway for HTTPS access:
 ```
@@ -407,7 +419,8 @@ https://rec-ui.<$INGRESS_HOST>.nip.io:443
 For example:
 https://rec-ui.34.83.116.191.nip.io:443
 ```
-Log in using demo@redislabs.com and the password collected above to view the cluster information in CM.
+Log in using demo@redislabs.com and the password collected above to view the cluster information in CM. You can then navigate to the Redis Enterprise Cluster nodes page by click on the **nodes" tab as follows:
+![REC nodes page](./img/rec_nodes.png)
 
   
 
@@ -574,8 +587,15 @@ EOF
 ```
 ./istio-1.10.2-asm.3/bin/istioctl install -f istio-operator-egress-gateway.yaml
 ``` 
+The output should look like the following:  
+```
+This will install the Istio 1.10.2 empty profile into the cluster. Proceed? (y/N) y
+✔ Egress gateways installed                                                                                                
+✔ Installation complete                                                                                                    Thank you for installing Istio 1.10.  Please take a few minutes to tell us about your install/upgrade experience!  https://forms.gle/KjkrDnMPByq7akrYA
+```
 
-  
+
+    
 #### 18. Configure TLS origination for the TLS-enabled Redis Enterprise database
 ```
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway \
