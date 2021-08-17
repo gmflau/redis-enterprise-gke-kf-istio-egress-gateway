@@ -11,7 +11,8 @@
 8. Configure TLS origination for accessing the TLS-enabled Redis Enterprise database from within the GKE cluster under Anthos Service Mesh
 9. Validate the setup using the Spring Music sample app
   
-*Note: Kf 2.5 and ASM 1.10*
+*Note: Kf 2.5 and ASM 1.10 are required*
+  
 
 ## High Level Workflow
 The following is the high level workflow which you will follow:
