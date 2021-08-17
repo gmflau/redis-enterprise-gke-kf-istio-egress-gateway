@@ -762,7 +762,7 @@ export DB_PORT=$(kubectl get secrets -n redis redb-redis-enterprise-database \
 
 export REDIS_HOST=redis-${DB_PORT}.demo.rec.${INGRESS_HOST}.nip.io
 export REDIS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
-       -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+       -o jsonpath='{.spec.ports[?(@.name=="https-redis")].port}')
 export REDIS_PASSWORD=$(kubectl get secrets -n redis redb-redis-enterprise-database \
        -o jsonpath="{.data.password}" | base64 --decode)
 
@@ -808,7 +808,7 @@ export DB_PORT=$(kubectl get secrets -n redis redb-redis-enterprise-database \
 
 export REDIS_HOST=redis-${DB_PORT}.demo.rec.${INGRESS_HOST}.nip.io
 export REDIS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
-       -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+       -o jsonpath='{.spec.ports[?(@.name=="https-redis")].port}')
 export REDIS_PASSWORD=$(kubectl get secrets -n redis redb-redis-enterprise-database \
        -o jsonpath="{.data.password}" | base64 --decode)
 
