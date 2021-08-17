@@ -769,7 +769,7 @@ Restart the app:
 ```
 kf restart spring-musci
 ```
-Access the Spring Music app again and you should see **Proflies:redis & Services:redis-<db-port-number>** as follows:
+Access the Spring Music app again and you should see **Proflies:redis & Services:redis-(db-port-number)** as follows:
 
 ![Spring Music](./img/spring-music.png)
    
