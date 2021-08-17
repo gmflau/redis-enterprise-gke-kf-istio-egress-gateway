@@ -167,6 +167,18 @@ Please make sure you have all the required [GCP IAM permissions](https://cloud.g
   --output_dir ./asm-downloads \
   --enable_all
 ```
+Add a custom port for Redis Enterprise database TLS connection to default ingress gateway:
+```
+kubectl edit svc istio-ingressgateway -n istio-system
+```
+Add the following next to the port definition section:
+```
+  - name: https-redis
+    nodePort: 31379
+    port: 6379
+    protocol: TCP
+    targetPort: 6379
+```
 
 
 #### 3. Install Config Connector
@@ -363,7 +375,7 @@ Define gateway for HTTPS access:
 ```
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway \
        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
+export SECURE_INGRESS_PORT_REC=$(kubectl -n istio-system get service istio-ingressgateway \
        -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
 
 kubectl apply -f - <<EOF
@@ -376,7 +388,7 @@ spec:
     istio: ingressgateway # use istio default ingress gateway
   servers:
   - port:
-      number: ${SECURE_INGRESS_PORT}
+      number: ${SECURE_INGRESS_PORT_REC}
       name: https
       protocol: HTTPS
     tls:
@@ -399,7 +411,7 @@ spec:
   - rec-ui-gateway
   tls:
   - match:
-    - port: ${SECURE_INGRESS_PORT}
+    - port: ${SECURE_INGRESS_PORT_REC}
       sniHosts:
       - rec-ui.${INGRESS_HOST}.nip.io
     route:
@@ -448,7 +460,7 @@ Gateway definition:
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway \
        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
-       -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+       -o jsonpath='{.spec.ports[?(@.name=="https-redis")].port}')
 export DB_PORT=$(kubectl get secrets -n redis redb-redis-enterprise-database \
        -o jsonpath="{.data.port}" | base64 --decode)
 
@@ -549,7 +561,7 @@ tar xzf istio-1.10.2-asm.3-osx.tar.gz
 #### 17. Install Istio Egress Gateway
 ```
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
-       -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+       -o jsonpath='{.spec.ports[?(@.name=="https-redis")].port}')
 ```
 ```
 cat > istio-operator-egress-gateway.yaml <<EOF
@@ -604,7 +616,7 @@ This will install the Istio 1.10.2 empty profile into the cluster. Proceed? (y/N
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway \
        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
-       -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+       -o jsonpath='{.spec.ports[?(@.name=="https-redis")].port}')
 export DB_PORT=$(kubectl get secrets -n redis redb-redis-enterprise-database \
        -o jsonpath="{.data.port}" | base64 --decode)
 ```
@@ -750,7 +762,7 @@ export DB_PORT=$(kubectl get secrets -n redis redb-redis-enterprise-database \
 
 export REDIS_HOST=redis-${DB_PORT}.demo.rec.${INGRESS_HOST}.nip.io
 export REDIS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
-       -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+       -o jsonpath='{.spec.ports[?(@.name=="https-redis")].port}')
 export REDIS_PASSWORD=$(kubectl get secrets -n redis redb-redis-enterprise-database \
        -o jsonpath="{.data.password}" | base64 --decode)
 
@@ -767,7 +779,7 @@ kf bind-service spring-music redis-${DB_PORT}
 ```
 Restart the app:
 ```
-kf restart spring-musci
+kf restart spring-music
 ```
 Access the Spring Music app again and you should see **Proflies:redis & Services:redis-(db-port-number)** as follows:
 
@@ -780,7 +792,7 @@ This step is optional. It will show you the user provided service for Redis Ente
 ```
 kf vcap-services spring-music
 
-Ex. {"user-provided":[{"instance_name":"redis-17279","name":"redis-17279","label":"user-provided","tags":["redis"],"credentials":{"uri":"redis://:eMd8rYFc@redis-17279.demo.rec.34.67.154.126.nip.io:17279"}}]}
+Ex. {"p-redis":[{"instance_name":"redis-16294","name":"redis-16294","label":"p-redis","tags":["redis","pivotal"],"plan":"default","credentials":{"uri":"redis://:caYVbGHa@redis-16294.demo.rec.34.135.144.199.nip.io:6379"}}]}
 ```
 Find the default user's password of the Redis Enterprise database instance:
 ```
@@ -796,7 +808,7 @@ export DB_PORT=$(kubectl get secrets -n redis redb-redis-enterprise-database \
 
 export REDIS_HOST=redis-${DB_PORT}.demo.rec.${INGRESS_HOST}.nip.io
 export REDIS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
-       -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+       -o jsonpath='{.spec.ports[?(@.name=="https-redis")].port}')
 export REDIS_PASSWORD=$(kubectl get secrets -n redis redb-redis-enterprise-database \
        -o jsonpath="{.data.password}" | base64 --decode)
 
