@@ -311,7 +311,12 @@ Ex. spring-music-16ddfwutxgjte-cd6vnt89i9io.test-space.34.67.154.126.nip.io
 You should see both Profiles: and Services: are empty as follows:
 
 ![Spring Music - no service](./img/spring-music-no-svc.png)
-
+  
+Go back to the working directory:
+```
+cd ..
+```
+  
 
   
 #### 9. Install Redis Enterprise Cluster
