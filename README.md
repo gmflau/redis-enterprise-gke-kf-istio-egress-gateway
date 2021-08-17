@@ -171,7 +171,7 @@ Please make sure you have all the required [GCP IAM permissions](https://cloud.g
 Note: Config Connector is required starting with Kf v2.4.0.  
 Download the config connector installation artifacts:
 ```
-https://storage.googleapis.com/configconnector-operator/1.46.0/release-bundle.tar.gz 
+curl https://storage.googleapis.com/configconnector-operator/1.46.0/release-bundle.tar.gz --output release-bundle.tar.gz
 tar zxvf release-bundle.tar.gz
 ```  
 Install Config Connector operator:
@@ -193,10 +193,18 @@ spec:
 EOF
 ```  
 Verify the connector:  
+Wait for a minute before running the following command:   
 ```
 kubectl wait -n cnrm-system --for=condition=Ready pod --all
 ```
-
+If success, you should see a similar output from the command:  
+```
+pod/cnrm-controller-manager-0 condition met
+pod/cnrm-deletiondefender-0 condition met
+pod/cnrm-resource-stats-recorder-86858dcdc5-g8h8c condition met
+pod/cnrm-webhook-manager-58c799b8fb-d44xf condition met
+```
+  
 
 #### 4. Set up workload identity
 ```
@@ -206,7 +214,7 @@ kubectl annotate serviceaccount \
 cnrm-controller-manager \
 iam.gke.io/gcp-service-account=${CLUSTER_NAME}-sa@${CLUSTER_PROJECT_ID}.iam.gserviceaccount.com
 ```  
-
+  
 
 #### 5. Install Tekton
 ```
@@ -273,6 +281,15 @@ kf target -s test-space
   
 
 #### 8. Install Redis Enterprise Cluster
+Create a namespace for Redis Enterprise Cluster deployment:
+```
+kubectl create namespace redis
+kubectl config set-context --current --namespace=redis
+```
+Deploy Redis Enterprise Operator bundle for Kubernetes:
+```
+kubectl apply -f https://raw.githubusercontent.com/RedisLabs/redis-enterprise-k8s-docs/v6.0.20-12/bundle.yaml
+```
 ```
 kubectl apply -f - <<EOF
 apiVersion: app.redislabs.com/v1alpha1
