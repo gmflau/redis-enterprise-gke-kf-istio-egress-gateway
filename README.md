@@ -311,7 +311,7 @@ The access URL should look like the following:
 ```
 Ex. spring-music-16ddfwutxgjte-cd6vnt89i9io.test-space.34.136.118.158.nip.io
 ```
-You should see both Profiles: and Services: are empty as follows:
+You should see both Profiles: and Services: are empty as shown below:
 
 ![Spring Music - no service](./img/spring-music-no-svc.png)
   
