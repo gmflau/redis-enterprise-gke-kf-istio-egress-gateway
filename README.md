@@ -2,7 +2,7 @@
 
 ## In this repo, you will learn how to:
 1. Create a GKE cluster
-2. Install Anthos Service Mesh on the GKE cluster
+2. Install Anthos Service Mesh (ASM) on the GKE cluster
 3. Install Kf on the GKE cluster
 4. Install Redis Enterprise Cluster on the GKE cluster
 5. Create a Redis Enterprise database with TLS (one-way SSL) enabled
@@ -10,7 +10,8 @@
 7. Create a user provided service for the TLS-enabled Redis Enterprise database
 8. Configure TLS origination for accessing the TLS-enabled Redis Enterprise database from within the GKE cluster under Anthos Service Mesh
 9. Validate the setup using the Spring Music sample app
-
+  
+*Note: Kf 2.5 and ASM 1.10*
 
 ## High Level Workflow
 The following is the high level workflow which you will follow:
