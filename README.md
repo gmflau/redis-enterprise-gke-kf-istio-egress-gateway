@@ -171,7 +171,7 @@ Please make sure you have all the required [GCP IAM permissions](https://cloud.g
 Note: Config Connector is required starting with Kf v2.4.0.  
 Download the config connector installation artifacts:
 ```
-curl https://storage.googleapis.com/configconnector-operator/1.46.0/release-bundle.tar.gz --output release-bundle.tar.gz
+curl -LO https://storage.googleapis.com/configconnector-operator/1.46.0/release-bundle.tar.gz --output release-bundle.tar.gz
 tar zxvf release-bundle.tar.gz
 ```  
 Install Config Connector operator:
