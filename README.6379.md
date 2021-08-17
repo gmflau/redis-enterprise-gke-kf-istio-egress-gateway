@@ -792,7 +792,7 @@ This step is optional. It will show you the user provided service for Redis Ente
 ```
 kf vcap-services spring-music
 
-Ex. {"user-provided":[{"instance_name":"redis-17279","name":"redis-17279","label":"user-provided","tags":["redis"],"credentials":{"uri":"redis://:eMd8rYFc@redis-17279.demo.rec.34.67.154.126.nip.io:17279"}}]}
+Ex. {"user-provided":[{"instance_name":"redis-17279","name":"redis-17279","label":"user-provided","tags":["redis"],"credentials":{"uri":"redis://:eMd8rYFc@redis-17279.demo.rec.34.67.154.126.nip.io:6379"}}]}
 ```
 Find the default user's password of the Redis Enterprise database instance:
 ```
