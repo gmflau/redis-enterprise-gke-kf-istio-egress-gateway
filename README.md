@@ -1,4 +1,4 @@
-# Accessing Redis Enterprise Database from Google Cloud Platform's Kf environment through user provided service (Istio Egress Gateway Edition)
+# Accessing Redis Enterprise Database from Google Cloud Platform's Kf environment through user provided service (TLS Origination's Istio Egress Gateway Edition)
 
 ## In this repo, you will learn how to:
 1. Create a GKE cluster
