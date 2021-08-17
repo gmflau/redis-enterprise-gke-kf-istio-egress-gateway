@@ -530,7 +530,7 @@ spec:
         # Enable gateway injection
         injectionTemplate: gateway
         runAsRoot: True
-EOF 
+EOF
 ```
 ```
 ./istio-1.10.2-asm.3/bin/istioctl install -f istio-operator-egress-gateway.yaml
