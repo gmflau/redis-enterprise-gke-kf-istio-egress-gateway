@@ -14,39 +14,32 @@
 
 ## High Level Workflow
 The following is the high level workflow which you will follow:
-1. Clone this repo
-2. Create a GKE cluster for Kf
-3. Install Anthos Service Mesh (ASM)
-4. Install Config Connector
-5. Set up workload identity
-6. Install Tekton
-7. Install Kf
-8. Create a Kf space for testing the TLS origination configuration
-9. Install Redis Enterprise Cluster
-10. Deploy Ingress Gateway and Create routes for Redis Enterprise Cluster's HTTPS web access
-11. Grab the password for demo@redislabs.com user for accessing REC's configuration manager (CM)
-12. Create a Redis Enterprise Database with one-way SSL
-13. Create Ingress Gateway and Virtual Service for the Redis Enterprise Database instance
-14. Create a dedicated GKE node pool for the egress gateway
-15. Create a namespace for Istio egress and label it for sidecar injection
-16. Download istioctl for your operating system and extract into your working directory
-17. Install Istio Egress Gateway
-18. Configure TLS origination for the TLS-enabled Redis Enterprise database
-19. Create a K8 secret from the Redis Enterprise database's proxy certificate
-20. Create a user provided service in Kf
-21. Deploy the Spring Music sample app in Kf
-22. Bind the user provided service to the Spring Music sample app
-23. Verify Spring Music app's data is being stored on the Redis Enterprise database
+1. Create a GKE cluster for Kf
+2. Install Anthos Service Mesh (ASM)
+3. Install Config Connector
+4. Set up workload identity
+5. Install Tekton
+6. Install Kf
+7. Create a Kf space for testing the TLS origination configuration
+8. Install Redis Enterprise Cluster
+9. Deploy Ingress Gateway and Create routes for Redis Enterprise Cluster's HTTPS web access
+10. Grab the password for demo@redislabs.com user for accessing REC's configuration manager (CM)
+11. Create a Redis Enterprise Database with one-way SSL
+12. Create Ingress Gateway and Virtual Service for the Redis Enterprise Database instance
+13. Create a dedicated GKE node pool for the egress gateway
+14. Create a namespace for Istio egress and label it for sidecar injection
+15. Download istioctl for your operating system and extract into your working directory
+16. Install Istio Egress Gateway
+17. Configure TLS origination for the TLS-enabled Redis Enterprise database
+18. Create a K8 secret from the Redis Enterprise database's proxy certificate
+19. Create a user provided service in Kf
+20. Deploy the Spring Music sample app in Kf
+21. Bind the user provided service to the Spring Music sample app
+22. Verify Spring Music app's data is being stored on the Redis Enterprise database
 
 
 
-#### 1. Clone this repo
-```
-git clone https://github.com/gmflau/redis-enterprise-gke-kf-istio-egress-gateway
-cd redis-enterprise-gke-kf-istio-egress-gateway
-```
-
-#### 2. Create a GKE cluster for Kf
+#### 1. Create a GKE cluster for Kf
 Setup environment variables:
 ```
 export PROJECT_ID=$(gcloud info --format='value(config.project)')
@@ -153,7 +146,7 @@ gcloud artifacts repositories add-iam-policy-binding ${CLUSTER_NAME} \
 ```
 
 
-#### 3. Install Anthos Service Mesh (ASM)
+#### 2. Install Anthos Service Mesh (ASM)
 Download ASM installation script
 ```
 curl https://storage.googleapis.com/csm-artifacts/asm/install_asm_1.10 > install_asm
@@ -174,7 +167,7 @@ Please make sure you have all the required [GCP IAM permissions](https://cloud.g
 ```
 
 
-#### 4. Install Config Connector
+#### 3. Install Config Connector
 Note: Config Connector is required starting with Kf v2.4.0.  
 Download the config connector installation artifacts:
 ```
@@ -205,7 +198,7 @@ kubectl wait -n cnrm-system --for=condition=Ready pod --all
 ```
 
 
-#### 5. Set up workload identity
+#### 4. Set up workload identity
 ```
 kubectl annotate serviceaccount \
 --namespace cnrm-system \
@@ -215,13 +208,13 @@ iam.gke.io/gcp-service-account=${CLUSTER_NAME}-sa@${CLUSTER_PROJECT_ID}.iam.gser
 ```  
 
 
-#### 6. Install Tekton
+#### 5. Install Tekton
 ```
 kubectl apply -f "https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.23.0/release.yaml"
 ```  
 
 
-#### 7. Install Kf
+#### 6. Install Kf
 Install the Kf CLI:
 ```
 Linux:
@@ -272,14 +265,14 @@ PASS
 ```  
   
   
-#### 8. Create a Kf space for testing the TLS origination configuration
+#### 7. Create a Kf space for testing the TLS origination configuration
 ```
 kf create-space test-space
 kf target -s test-space
 ```
   
 
-#### 9. Install Redis Enterprise Cluster
+#### 8. Install Redis Enterprise Cluster
 ```
 kubectl apply -f - <<EOF
 apiVersion: app.redislabs.com/v1alpha1
@@ -293,7 +286,7 @@ EOF
 ```
 
   
-#### 10. Deploy Ingress Gateway and Create routes for Redis Enterprise Cluster's HTTPS web access
+#### 9. Deploy Ingress Gateway and Create routes for Redis Enterprise Cluster's HTTPS web access
 Define gateway for HTTPS access:
 ```
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway \
@@ -346,7 +339,7 @@ EOF
 ```  
   
 
-#### 11. Grab the password for demo@redislabs.com user for accessing REC's configuration manager (CM)
+#### 10. Grab the password for demo@redislabs.com user for accessing REC's configuration manager (CM)
 ```
 kubectl get secrets -n redis rec -o jsonpath="{.data.password}" | base64 --decode
 ```
@@ -361,7 +354,7 @@ Log in using demo@redislabs.com and the password collected above to view the clu
 
   
 
-#### 12. Create a Redis Enterprise Database with one-way SSL 
+#### 11. Create a Redis Enterprise Database with one-way SSL 
 ```
 kubectl apply -f - <<EOF
 apiVersion: app.redislabs.com/v1alpha1
@@ -376,7 +369,7 @@ EOF
 ```
 
   
-#### 13. Create Ingress Gateway and Virtual Service for the Redis Enterprise Database instance
+#### 12. Create Ingress Gateway and Virtual Service for the Redis Enterprise Database instance
 Gateway definition:
 ```
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway \
@@ -431,7 +424,7 @@ EOF
 ``` 
 
 
-#### 14. Create a dedicated GKE node pool for the egress gateway
+#### 13. Create a dedicated GKE node pool for the egress gateway
 ```
 gcloud container node-pools create "gateway" \
 --cluster ${CLUSTER_NAME} \
@@ -443,7 +436,7 @@ gcloud container node-pools create "gateway" \
 ```
 
   
-#### 15. Create a namespace for Istio egress and label it for sidecar injection
+#### 14. Create a namespace for Istio egress and label it for sidecar injection
 Use the following command to find your ASM version:
 ```
 kubectl -n istio-system get pods -l app=istiod --show-labels
@@ -455,7 +448,7 @@ kubectl label namespace istio-egress istio.io/rev=asm-1102-3
 ```
    
   
-#### 16. Download istioctl for your operating system and extract into your working directory
+#### 15. Download istioctl for your operating system and extract into your working directory
 Follow this [link](https://cloud.google.com/service-mesh/docs/downloading-istioctl#linux) for Linux.    
 Follow this [link](https://cloud.google.com/service-mesh/docs/downloading-istioctl#mac-os) for Mac OS.  
 For Mac OS:   
@@ -481,7 +474,7 @@ cd istio-1.10.2-asm.3
 ```
 
 
-#### 17. Install Istio Egress Gateway
+#### 16. Install Istio Egress Gateway
 ```
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
        -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
@@ -523,7 +516,7 @@ EOF
 ``` 
 
   
-#### 18. Configure TLS origination for the TLS-enabled Redis Enterprise database
+#### 17. Configure TLS origination for the TLS-enabled Redis Enterprise database
 ```
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway \
        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -654,7 +647,7 @@ EOF
 ```
   
 
-#### 19. Create a K8 secret from the Redis Enterprise database's proxy certificate
+#### 18. Create a K8 secret from the Redis Enterprise database's proxy certificate
 Copy the content of proxy_cert.pem from one of the REC pods to your machine:
 ```
 kubectl cp rec-0:/etc/opt/redislabs/proxy_cert.pem ./proxy_cert.pem -c redis-enterprise-node
@@ -665,7 +658,7 @@ kubectl create secret generic -n istio-egress redis-${DB_PORT}-secret --from-fil
 ```
 
 
-#### 20. Create a user provided service in Kf
+#### 19. Create a user provided service in Kf
 ```
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway \
        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -684,7 +677,7 @@ kf cups redis-$DB_PORT -p \
 ```
   
 
-#### 21. Deploy the Spring Music sample app in Kf
+#### 20. Deploy the Spring Music sample app in Kf
 ```
 git clone https://github.com/cloudfoundry-samples/spring-music.git spring-music
 cd spring-music
@@ -718,7 +711,7 @@ You should see both Profiles: and Services: are empty as follows:
 
 
   
-#### 22. Bind the user provided service to the Spring Music sample app
+#### 21. Bind the user provided service to the Spring Music sample app
 Bind service:
 ```
 kf bind-service spring-music redis-${DB_PORT}
@@ -733,7 +726,7 @@ Access the Spring Music app again and you should see **Proflies:redis & Services
   
  
    
-#### 23. Verify Spring Music app's data is being stored on the Redis Enterprise database
+#### 22. Verify Spring Music app's data is being stored on the Redis Enterprise database
 This step is optional. It will show you the user provided service for Redis Enterprise database is bound to the Spring Music app.
 ```
 kf vcap-services spring-music
