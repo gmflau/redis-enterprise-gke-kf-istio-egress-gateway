@@ -174,7 +174,7 @@ kubectl edit svc istio-ingressgateway -n istio-system
 Add the following next to the port definition section:
 ```
   - name: https-redis
-    nodePort: 36379
+    nodePort: 31379
     port: 6379
     protocol: TCP
     targetPort: 6379
