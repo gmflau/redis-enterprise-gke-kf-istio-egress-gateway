@@ -301,7 +301,7 @@ applications:
 ```
 Push the Spring Music for deployment:
 ```
-kf push spring-music
+kf push
 ```
 Access the Spring Music app using the access URL:
 ```
