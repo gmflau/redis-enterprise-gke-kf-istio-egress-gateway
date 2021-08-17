@@ -290,6 +290,7 @@ Deploy Redis Enterprise Operator bundle for Kubernetes:
 ```
 kubectl apply -f https://raw.githubusercontent.com/RedisLabs/redis-enterprise-k8s-docs/v6.0.20-12/bundle.yaml
 ```
+Create a Redis Enterprise Cluster instance:
 ```
 kubectl apply -f - <<EOF
 apiVersion: app.redislabs.com/v1alpha1
