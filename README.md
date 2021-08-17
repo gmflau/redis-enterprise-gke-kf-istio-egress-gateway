@@ -495,7 +495,8 @@ tar xzf istio-1.10.2-asm.3-osx.tar.gz
 ```
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
        -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
-
+```
+```
 cat > istio-operator-egress-gateway.yaml <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -530,7 +531,8 @@ spec:
         injectionTemplate: gateway
         runAsRoot: True
 EOF 
-
+```
+```
 ./istio-1.10.2-asm.3/bin/istioctl install -f istio-operator-egress-gateway.yaml
 ``` 
 
