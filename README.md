@@ -800,7 +800,9 @@ export REDIS_PORT=$(kubectl -n istio-system get service istio-ingressgateway \
 export REDIS_PASSWORD=$(kubectl get secrets -n redis redb-redis-enterprise-database \
        -o jsonpath="{.data.password}" | base64 --decode)
 
-redis-cli --sni ${REDIS_HOST} -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD} --tls --cacert ./proxy_cert.pem
+redis-cli --sni ${REDIS_HOST} -h ${REDIS_HOST} \
+   -p ${REDIS_PORT} -a ${REDIS_PASSWORD} \
+   --tls --cacert ./proxy_cert.pem
 ```
 Verify the **album** key is in the database:
 ```
