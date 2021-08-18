@@ -356,7 +356,7 @@ spec:
   nodes: 3
 EOF
 ```  
-It will take about 8 minutes to compleate the deployment.  Run the following command to ensure all three Redis Enterprise Cluster pods are up and running:
+It will take about 8 minutes to complete the deployment.  Run the following command to ensure all three Redis Enterprise Cluster pods are up and running:
 ```
 kubectl get pod -n redis
 ```
@@ -434,7 +434,7 @@ https://rec-ui.<$INGRESS_HOST>.nip.io:443
 For example:
 https://rec-ui.34.136.118.158.nip.io:443
 ```
-Log in using demo@redislabs.com and the password collected above to view the cluster information in CM. You can then navigate to the Redis Enterprise Cluster nodes page by click on the **nodes" tab as follows:
+Log in using demo@redislabs.com and the password collected above to view the cluster information in CM. You can then navigate to the Redis Enterprise Cluster nodes page by click on the **nodes** tab as follows:
 ![REC nodes page](./img/rec_nodes.png)
 
   
@@ -816,11 +816,11 @@ redis-cli --sni ${REDIS_HOST} -h ${REDIS_HOST} \
    -p ${REDIS_PORT} -a ${REDIS_PASSWORD} \
    --tls --cacert ./proxy_cert.pem
 ```
-Verify the **album** key is in the database:
+Verify the **albums** key is in the database:
 ```
 > keys *
 ```
-Find out the data type for **albums":
+Find out the data type for **albums**:
 ```
 > type albums
 ```
